@@ -1,0 +1,23 @@
+/* App.css */
+
+@import url("https://fonts.googleapis.com/css2?family=Itim&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-itim: "Itim", cursive;
+  --font-kosugi-maru: "Kosugi Maru", sans-serif;
+  --font-nunito: "Nunito", sans-serif;
+}
+
+#root {
+  /* max-width: 1280px; */
+  padding: 0 0;
+  margin: 0 0;
+  text-align: center;
+}
+
+body {
+  @apply font-nunito;
+}
