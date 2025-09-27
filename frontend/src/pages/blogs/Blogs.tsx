@@ -8,6 +8,9 @@ import {
   ChevronDown,
 } from "lucide-react";
 
+import { blogs } from "../../data/blogs";
+import BlogCard from "../../components/blog/BlogCard";
+
 const Blogs = () => {
   const listTimesFilter = ["Newest", "Oldest"];
   const [timeFilter, setTimeFilter] = useState("Newest"); // ["Newest", "Oldest"
@@ -25,7 +28,7 @@ const Blogs = () => {
   const [showCategoryFilter, setShowCategoryFilter] = useState(false);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col lg:px-50">
       {/* Subheader */}
       <div className="flex flex-col items-center text-center gap-3 mb-10">
         <div className="flex items-center gap-2">
@@ -177,7 +180,20 @@ const Blogs = () => {
       </div>
 
       {/* Blog list */}
-      <div>{/* Map blog items ở đây */}</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        {blogs
+          .filter((b) =>
+            categoryFilter === "All" ? true : b.category === categoryFilter
+          )
+          .sort((a, b) =>
+            timeFilter === "Newest"
+              ? new Date(b.date).getTime() - new Date(a.date).getTime()
+              : new Date(a.date).getTime() - new Date(b.date).getTime()
+          )
+          .map((blog) => (
+            <BlogCard key={blog.id} post={blog} />
+          ))}
+      </div>
     </div>
   );
 };

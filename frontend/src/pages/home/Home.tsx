@@ -45,12 +45,19 @@ const Home = () => {
         </p>
       </div>
       <div className="flex items-center justify-center gap-5 mt-5">
-        <div className="text-sm px-3 py-2 bg-[#006239] hover:bg-[#287050] rounded-md border border-[#3cc88a] cursor-pointer">
+        <a
+          href="/Nguyen Minh Hung_AI_Engineer.pdf" // file đặt trong public
+          download
+          className="text-sm px-3 py-2 bg-[#006239] hover:bg-[#287050] rounded-md border border-[#3cc88a] cursor-pointer text-white"
+        >
           Download my CV
-        </div>
-        <div className="text-sm px-3 py-2 bg-[#242424] rounded-md hover:border hover:border-gray-500 cursor-pointer">
+        </a>
+        <a
+          href="mailto:hungm0434@gmail.com"
+          className="text-sm px-3 py-2 bg-[#242424] rounded-md hover:border hover:border-gray-500 cursor-pointer text-white"
+        >
           Send an email
-        </div>
+        </a>
       </div>
       {/* Tech Slider */}
       <div className="mt-10 sm:px-10 md:px-30 flex flex-col gap-5">

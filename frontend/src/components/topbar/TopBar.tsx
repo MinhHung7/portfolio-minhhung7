@@ -14,10 +14,6 @@ const TopBar = () => {
       link: "/about-me",
     },
     {
-      title: "Achievements",
-      link: "/achievements",
-    },
-    {
       title: "Contact",
       link: "/contact",
     },
@@ -42,7 +38,10 @@ const TopBar = () => {
                  after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] 
                  after:bg-[#3cc88a] after:transition-all after:duration-300 hover:after:w-full"
               onClick={() => {
-                if (menu.title === "Contact") {
+                if (
+                  menu.title === "Contact" &&
+                  window.location.pathname === "/"
+                ) {
                   const el = document.getElementById("contact");
                   el?.scrollIntoView({ behavior: "smooth" });
                 } else if (
@@ -52,8 +51,12 @@ const TopBar = () => {
                   const el = document.getElementById("home");
                   el?.scrollIntoView({ behavior: "smooth" });
                 } else {
-                  // Nếu bạn có router, thì navigate sang link
-                  window.location.href = menu.link;
+                  if (menu.title === "Contact") {
+                    window.location.href = "/";
+                  } else {
+                    // Nếu bạn có router, thì navigate sang link
+                    window.location.href = menu.link;
+                  }
                 }
               }}
             >
@@ -74,9 +77,12 @@ const TopBar = () => {
           </div>
 
           {/* Hire me */}
-          <div className="cursor-pointer bg-[#3cc88a] text-white text-sm px-3 py-2 rounded-lg shadow">
+          <a
+            href="mailto:hungm0434@gmail.com"
+            className="cursor-pointer bg-[#3cc88a] hover:bg-[#006239] text-white text-sm px-3 py-2 rounded-lg shadow"
+          >
             Hire me
-          </div>
+          </a>
 
           {/* Menu toggle */}
           <div

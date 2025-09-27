@@ -1,21 +1,10 @@
 import React, { useState } from "react";
-
-import {
-  Handshake,
-  BrainCircuit,
-  PackageSearch,
-  Workflow,
-  Grid2x2Check,
-  LaptopMinimal,
-  Container,
-  Waypoints,
-  Coffee,
-  GraduationCap,
-} from "lucide-react";
+import Milestone from "../../components/milestone/Milestone";
+import { Award, Coffee, GraduationCap } from "lucide-react";
 
 const AboutMe = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col xl:px-30">
       <div className="flex items-center gap-10">
         <img src="/logo.jpg" alt="logo" className="w-20 h-20 rounded-full" />
         <div className="flex flex-col text-left">
@@ -25,6 +14,7 @@ const AboutMe = () => {
           </p>
         </div>
       </div>
+      {/* A little more about me ... */}
       <div className="flex flex-col mt-10 gap-3">
         <div className="flex items-center gap-3">
           <Coffee className="w-8 h-8 text-[#3cc88a]" />
@@ -63,6 +53,13 @@ const AboutMe = () => {
             </p>
           </div>
         </div>
+      </div>
+      <div className="mt-10 flex flex-col">
+        <div className="text-left flex items-center gap-3 mb-5">
+          <Award className="w-8 h-8 text-[#3cc88a]" />
+          <p className="font-bold text-2xl text-[#3cc88a]">Achievements</p>
+        </div>
+        <Milestone />
       </div>
     </div>
   );
