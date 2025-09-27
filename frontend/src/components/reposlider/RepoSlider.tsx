@@ -112,7 +112,7 @@ const repos = [
 
 const RepoSlider = () => {
   return (
-    <div className="overflow-hidden w-full">
+    <div className="overflow-hidden w-full mt-10">
       <div className="repo-animate-marquee flex gap-10">
         {repos.concat(repos).map((repo, i) => (
           <div

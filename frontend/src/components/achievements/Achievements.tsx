@@ -18,7 +18,7 @@ const Achievements = () => {
     },
   ];
   return (
-    <div className="grid grid-cols-2 bg-[#171717] rounded-2xl border border-gray-500">
+    <div className="grid grid-cols-2 md:!grid-cols-4 md:p-5 bg-[#171717] rounded-2xl border border-gray-500">
       {data.map((item, index) => (
         <div
           key={index}

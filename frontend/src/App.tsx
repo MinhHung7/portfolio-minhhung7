@@ -2,6 +2,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/home/Home";
+import AboutMe from "./pages/aboutme/AboutMe";
+import Blogs from "./pages/blogs/Blogs";
 import "./App.css";
 
 function App() {
@@ -11,8 +13,8 @@ function App() {
         {/* Các route bên trong Layout */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/flashcard" element={<Flashcard />} /> */}
-          {/* <Route path="/kanjiwriting" element={<KanjiWriting />} /> */}
+          <Route path="/about-me" element={<AboutMe />} />
+          <Route path="/blogs" element={<Blogs />} />
         </Route>
       </Routes>
     </Router>

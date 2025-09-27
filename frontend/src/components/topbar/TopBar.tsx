@@ -11,7 +11,7 @@ const TopBar = () => {
     },
     {
       title: "About Me",
-      link: "/Resume",
+      link: "/about-me",
     },
     {
       title: "Achievements",
@@ -34,6 +34,34 @@ const TopBar = () => {
           <img src="/logo.jpg" alt="logo" className="h-10 w-10 rounded-full" />
         </div>
 
+        <div className="hidden lg:!flex items-center gap-10 xl:gap-15">
+          {menues.map((menu, index) => (
+            <div
+              key={index}
+              className="relative text-white font-bold cursor-pointer hover:text-[#3cc88a] transition duration-300
+                 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] 
+                 after:bg-[#3cc88a] after:transition-all after:duration-300 hover:after:w-full"
+              onClick={() => {
+                if (menu.title === "Contact") {
+                  const el = document.getElementById("contact");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                } else if (
+                  menu.title === "Home" &&
+                  window.location.pathname === "/"
+                ) {
+                  const el = document.getElementById("home");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  // Nếu bạn có router, thì navigate sang link
+                  window.location.href = menu.link;
+                }
+              }}
+            >
+              {menu.title}
+            </div>
+          ))}
+        </div>
+
         <div className="flex items-center gap-2">
           {/* Github */}
           <div
@@ -52,7 +80,7 @@ const TopBar = () => {
 
           {/* Menu toggle */}
           <div
-            className="cursor-pointer hover:bg-[#242424] px-3 py-2 rounded-lg"
+            className="lg:hidden cursor-pointer hover:bg-[#242424] px-3 py-2 rounded-lg"
             onClick={() => setOpenMenu(!openMenu)}
           >
             {openMenu ? (
@@ -72,7 +100,22 @@ const TopBar = () => {
               <li
                 key={index}
                 className="px-2 text-left cursor-pointer hover:text-[#3cc88a]"
-                onClick={() => setOpenMenu(false)}
+                onClick={() => {
+                  setOpenMenu(false);
+                  if (menu.title === "Contact") {
+                    const el = document.getElementById("contact");
+                    el?.scrollIntoView({ behavior: "smooth" });
+                  } else if (
+                    menu.title === "Home" &&
+                    window.location.pathname === "/"
+                  ) {
+                    const el = document.getElementById("home");
+                    el?.scrollIntoView({ behavior: "smooth" });
+                  } else {
+                    // Nếu bạn có router, thì navigate sang link
+                    window.location.href = menu.link;
+                  }
+                }}
               >
                 {menu.title}
               </li>

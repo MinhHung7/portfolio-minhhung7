@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 const Layout = () => {
   return (
     <div className="flex flex-col justify-between">
-      <div className="px-7 w-full min-h-screen bg-black max-w-screen">
+      <div className="px-7 sm:px-20 md:px-10 lg:px-30 xl:px-50 w-full min-h-screen bg-black max-w-screen">
         <TopBar />
         {/* chỉ cho main được scroll */}
         <main>

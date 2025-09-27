@@ -4,6 +4,7 @@ import TechSlider from "../../components/techslider/TechSlider";
 import RepoSlider from "../../components/reposlider/RepoSlider";
 import Achievements from "../../components/achievements/Achievements";
 import Projects from "../../components/projects/Projects";
+import Contact from "../contact/Contact";
 
 import {
   Handshake,
@@ -29,13 +30,15 @@ const Home = () => {
   ];
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" id="home">
       <div className="flex flex-col mt-10 gap-2">
-        <p className="text-3xl">Hello, thank you for visiting</p>
-        <p className="text-[#3cc88a] text-3xl">Minh Hung (Calvin)'s Porfolio</p>
+        <p className="text-3xl lg:text-5xl">Hello, thank you for visiting</p>
+        <p className="text-[#3cc88a] text-3xl lg:text-5xl">
+          Minh Hung (Calvin)'s Porfolio
+        </p>
       </div>
-      <div className="mt-5">
-        <p className="text-sm font-bold">
+      <div className="mt-5 sm:px-10 md:px-30 lg:px-40 xl:px-50">
+        <p className="text-sm font-bold lg:text-base">
           As a Computer Science student at VNUHCM – University of Science in
           Vietnam, I have a solid foundation in C++ and Python, and I am
           passionate about Machine Learning and AI Engineering.
@@ -49,12 +52,14 @@ const Home = () => {
           Send an email
         </div>
       </div>
-      <div className="mt-10 flex flex-col gap-5">
+      {/* Tech Slider */}
+      <div className="mt-10 sm:px-10 md:px-30 flex flex-col gap-5">
         <TechSlider />
         <p className="text-sm font-bold text-[#898989]">
           Some technicals I used to use in projects
         </p>
       </div>
+      {/* Analytics */}
       <div className="mt-10 flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <p className="text-[#3cc88a]">Want to see some analytics, huh?</p>
@@ -65,6 +70,7 @@ const Home = () => {
         </div>
         <Achievements />
       </div>
+      {/* Noted Projects */}
       <div className="mt-10 flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <p className="text-[#3cc88a]">Notable Projects</p>
@@ -97,6 +103,9 @@ const Home = () => {
           </p>
         </div>
         <RepoSlider />
+      </div>
+      <div className="mt-20" id="contact">
+        <Contact />
       </div>
     </div>
   );
