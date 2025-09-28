@@ -230,4 +230,129 @@ Các kiến trúc phổ biến:
     author: "Minh Hung",
     category: "AI Engineer",
   },
+  {
+    id: "2",
+    slug: "text-video-retrieval-evaluation-methods",
+    title: "Text-video Retrieval Evaluation Methods",
+    excerpt: `Khi bạn gõ “một chú chó đang chạy trên bãi biển” và hệ thống trả về hàng loạt video, làm thế nào để biết mô hình AI thực sự “hiểu” bạn?
+Trong thế giới text-video retrieval, những chỉ số như R@1, R@5, R@10, MdR, MnR, và SumR chính là “thước đo niềm tin” – cho thấy khả năng mô hình tìm đúng video trong biển dữ liệu khổng lồ.
+Bài viết này sẽ giải thích chi tiết từng metric, minh họa bằng ví dụ dễ hiểu, và chỉ ra tại sao chúng lại trở thành chuẩn mực để đánh giá mọi hệ thống tìm kiếm video bằng ngôn ngữ tự nhiên.`,
+    cover:
+      "/text_video_retrieval_evaluation_methods/74baa4032f93d8444e0b52e3aacbb1e5278c1f90-921x561.png",
+    content: `Trong kỷ nguyên bùng nổ nội dung số, Text-Video Retrieval (truy vấn video bằng ngôn ngữ tự nhiên) đã trở thành một trong những bài toán nóng nhất trong AI. Tưởng tượng bạn gõ: “Cô gái đang chơi đàn piano trong công viên”, và hệ thống phải trả về video chính xác trong hàng triệu clip.
+
+Nhưng làm thế nào để đánh giá chất lượng của hệ thống này? 🤔
+Câu trả lời nằm ở những chỉ số tưởng chừng đơn giản nhưng cực kỳ quan trọng: Recall@K (R@1, R@5, R@10), MdR, MnR.
+
+## R@K là gì?
+
+Recall@K (R@K) đo lường khả năng tìm đúng video trong top-K kết quả đầu tiên.
+
+- R@1: Phần trăm truy vấn mà video đúng xuất hiện ngay ở vị trí **đầu tiên**
+- R@5: Phần trăm truy vấn có video đúng trong top 5
+- R@10: Phần trăm truy vấn có video đúng trong top 10
+
+Với text-video retrieval: mỗi câu truy vấn $q$ (một câu mô tả) có tập video đúng $G(q)$ (thường là 1 video đúng). Ta lấy top-K video có điểm tương đồng cao nhất với $q$.Nếu trong top-K có ít nhất 1 video thuộc $G(q)$ ⇒ truy vấn đó “đúng trong top-K”.
+
+Công thức tính R@K:
+
+$$
+R@K = \frac{1}{|Q|}\sum_{q \in Q}1\left[\min_{g \in G(q)}rank(g) \leq K\right]*100\%
+$$
+
+Trong đó:
+
+- $Q$ là tập các truy vấn
+- $G(q)$ là tập các video liên quan đến truy vấn $q$
+- $rank(g)$ là vị trí của video $g$ trong kết quả trả về
+
+Ví dụ thực tế:
+
+Giả sử có 5 truy vấn, và vị trí video đúng lần lượt là: 1, 2, 7, 11, 20
+
+- R@1 = 1/5 = 20%
+- R@5 = 2/5 = 40%
+- R@10 = 3/5 = 60%
+
+Chức năng:
+
+- R@1 cao $\rightarrow$ mô hình cực kỳ chính xác, đúng ngay từ đầu
+- R@5, R@10 cao nhưng R@1 thấp $\rightarrow$ mô hình tìm đúng nhưng chưa "tự tin" để xếp lên đầu
+
+Hạn chế của R@K:
+
+- Không phân biệt vị trí trong top-K: Đúng ở hạng 1 và hạng 10 đều được tính như nhau ở K@10
+- Không phản ánh toàn bộ ranking: Chỉ biết “có đúng hay không”, không biết mô hình xử lý các kết quả sai ra sao.
+- Vì thế, các paper thường kết hợp thêm Median Rank (MedR), Mean Rank (MnR), hoặc nDCG để có cái nhìn đầy đủ hơn.
+
+## MdR - Median Rank là gì?
+
+Median Rank (MdR) là một chỉ số đánh giá hiệu quả xếp hạng trong bài toán retrieval
+
+- Nó đo vị trí trung vị của kết quả đúng trong danh sách xếp hạng.
+- Nói cách khác: nếu bạn lấy rank của video đúng cho từng truy vấn, rồi sắp xếp tất cả các giá trị rank này, thì MdR là giá trị ở giữa (median).
+
+Công thức tính MdR:
+
+$$
+MdR = median({r_1, r_2, ..., r_n})
+$$
+
+Ví dụ thực tế:
+
+Giả sử có 5 truy vấn, với rank của video đúng lần lượt là:
+
+$$
+[1,2,7,11,20]
+$$
+
+Trung vị của dãy này = 7 ⇒ MdR = 7
+
+Ý nghĩa: với 50% truy vấn, hệ thống xếp đúng video ở vị trí ≤ 7.
+
+Ý nghĩa trong thực nghiệm
+
+- MdR nhỏ → mô hình có xu hướng đưa kết quả đúng lên rất gần đầu danh sách.
+- MdR lớn → nhiều truy vấn cần phải cuộn sâu mới tìm thấy video đúng.
+
+Ví dụ trong một paper:
+
+- R@1 = 40%, R@5 = 70%, MdR = 2
+  → 50% số truy vấn tìm đúng video ở vị trí ≤ 2, nghĩa là mô hình cực kỳ “sắc bén”.
+
+## MnR - Mean Rank là gì?
+
+Mean Rank (MnR) là một chỉ số đánh giá hiệu quả xếp hạng trong bài toán retrieval
+
+- Nó đo giá trị trung bình của rank của các kết quả đúng trong danh sách xếp hạng.
+- Nói cách khác: nếu bạn lấy rank của video đúng cho từng truy vấn, rồi tính trung bình tất cả các giá trị rank này, thì MnR là giá trị trung bình.
+
+Công thức tính MnR:
+
+Cho $N$ truy vấn, mỗi truy vấn $q_i$ có ground-truth với rank $r_i$.
+
+$$
+MnR = \frac{1}{N}\sum_{i=1}^{N}r_i
+$$
+
+Ví dụ thực tế:
+
+Giả sử có 5 truy vấn, với rank của video đúng lần lượt là:
+
+$$
+[1,2,7,11,20]
+$$
+
+Trung bình của dãy này = 8.2 ⇒ MnR = 8.2
+Ý nghĩa: với 50% truy vấn, hệ thống xếp đúng video ở vị trí ≤ 8.2.
+
+Ý nghĩa trong thực nghiệm
+
+- MnR nhỏ → mô hình có xu hướng đưa kết quả đúng lên rất gần đầu danh sách.
+- MnR lớn → nhiều truy vấn cần phải cuộn sâu mới tìm thấy video đúng.`,
+    tags: ["Information Retrieval", "Deep Learning"],
+    date: "2025-09-28",
+    author: "Minh Hung",
+    category: "AI Engineer",
+  },
 ];
