@@ -239,18 +239,16 @@ Trong thế giới text-video retrieval, những chỉ số như R@1, R@5, R@10,
 Bài viết này sẽ giải thích chi tiết từng metric, minh họa bằng ví dụ dễ hiểu, và chỉ ra tại sao chúng lại trở thành chuẩn mực để đánh giá mọi hệ thống tìm kiếm video bằng ngôn ngữ tự nhiên.`,
     cover:
       "/text_video_retrieval_evaluation_methods/74baa4032f93d8444e0b52e3aacbb1e5278c1f90-921x561.png",
-    content: `Trong kỷ nguyên bùng nổ nội dung số, Text-Video Retrieval (truy vấn video bằng ngôn ngữ tự nhiên) đã trở thành một trong những bài toán nóng nhất trong AI. Tưởng tượng bạn gõ: “Cô gái đang chơi đàn piano trong công viên”, và hệ thống phải trả về video chính xác trong hàng triệu clip.
-
-Nhưng làm thế nào để đánh giá chất lượng của hệ thống này? 🤔
+    content: `Trong kỷ nguyên bùng nổ nội dung số, Text-Video Retrieval (truy vấn video bằng ngôn ngữ tự nhiên) đã trở thành một trong những bài toán nóng nhất trong AI. Tưởng tượng bạn gõ: “Cô gái đang chơi đàn piano trong công viên”, và hệ thống phải trả về video chính xác trong hàng triệu clip.\n\nNhưng làm thế nào để đánh giá chất lượng của hệ thống này? 🤔
 Câu trả lời nằm ở những chỉ số tưởng chừng đơn giản nhưng cực kỳ quan trọng: Recall@K (R@1, R@5, R@10), MdR, MnR.
 
 ## R@K là gì?
 
 Recall@K (R@K) đo lường khả năng tìm đúng video trong top-K kết quả đầu tiên.
 
-- R@1: Phần trăm truy vấn mà video đúng xuất hiện ngay ở vị trí **đầu tiên**
-- R@5: Phần trăm truy vấn có video đúng trong top 5
-- R@10: Phần trăm truy vấn có video đúng trong top 10
+\- R@1: Phần trăm truy vấn mà video đúng xuất hiện ngay ở vị trí **đầu tiên**
+\- R@5: Phần trăm truy vấn có video đúng trong top 5
+\- R@10: Phần trăm truy vấn có video đúng trong top 10
 
 Với text-video retrieval: mỗi câu truy vấn $q$ (một câu mô tả) có tập video đúng $G(q)$ (thường là 1 video đúng). Ta lấy top-K video có điểm tương đồng cao nhất với $q$.Nếu trong top-K có ít nhất 1 video thuộc $G(q)$ ⇒ truy vấn đó “đúng trong top-K”.
 
