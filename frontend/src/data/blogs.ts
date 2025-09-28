@@ -257,7 +257,7 @@ Với text-video retrieval: mỗi câu truy vấn $q$ (một câu mô tả) có 
 Công thức tính R@K:
 
 $$
-R@K = \frac{1}{|Q|}\sum_{q \in Q}1\left[\min_{g \in G(q)}rank(g) \leq K\right]*100\%
+R@K = \\frac{1}{|Q|}\\sum_{q \\in Q}1\\left[\\min_{g \\in G(q)}rank(g) \\leq K\\right]*100\\%
 $$
 
 Trong đó:
