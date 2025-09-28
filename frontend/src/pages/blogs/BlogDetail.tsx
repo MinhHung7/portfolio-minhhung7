@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { blogs } from "../../data/blogs";
 
 const BlogDetail: React.FC = () => {
@@ -41,7 +43,10 @@ const BlogDetail: React.FC = () => {
       )}
 
       <div className="text-justify prose prose-invert max-w-none">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[rehypeKatex]}
+        >
           {post.content}
         </ReactMarkdown>
       </div>

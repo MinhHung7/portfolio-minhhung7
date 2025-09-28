@@ -6,6 +6,7 @@ import AboutMe from "./pages/aboutme/AboutMe";
 import Blogs from "./pages/blogs/Blogs";
 import BlogDetail from "./pages/blogs/BlogDetail";
 import "./App.css";
+import "katex/dist/katex.min.css";
 
 function App() {
   return (
