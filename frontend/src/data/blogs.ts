@@ -246,9 +246,9 @@ Câu trả lời nằm ở những chỉ số tưởng chừng đơn giản như
 
 Recall@K (R@K) đo lường khả năng tìm đúng video trong top-K kết quả đầu tiên.
 
-\- R@1: Phần trăm truy vấn mà video đúng xuất hiện ngay ở vị trí **đầu tiên**
-\- R@5: Phần trăm truy vấn có video đúng trong top 5
-\- R@10: Phần trăm truy vấn có video đúng trong top 10
+- R@1: Phần trăm truy vấn mà video đúng xuất hiện ngay ở vị trí **đầu tiên**
+- R@5: Phần trăm truy vấn có video đúng trong top 5
+- R@10: Phần trăm truy vấn có video đúng trong top 10
 
 Với text-video retrieval: mỗi câu truy vấn $q$ (một câu mô tả) có tập video đúng $G(q)$ (thường là 1 video đúng). Ta lấy top-K video có điểm tương đồng cao nhất với $q$.Nếu trong top-K có ít nhất 1 video thuộc $G(q)$ ⇒ truy vấn đó “đúng trong top-K”.
 
@@ -350,6 +350,139 @@ Trung bình của dãy này = 8.2 ⇒ MnR = 8.2
 - MnR lớn → nhiều truy vấn cần phải cuộn sâu mới tìm thấy video đúng.`,
     tags: ["Information Retrieval", "Deep Learning"],
     date: "2025-09-28",
+    author: "Minh Hung",
+    category: "AI Engineer",
+  },
+  {
+    id: "3",
+    slug: "a-practiva-guide-to-build-ai-agent",
+    title: "A Practiva Guide to Build AI Agent",
+    excerpt: `AI Agent là một mô hình AI được huấn luyện để thực hiện các tác vụ dựa trên dữ liệu và kiến thức. Cho phép thực hiện các tác vụ mà không cần phải có sự giám sát trực tiếp từ người dùng.`,
+    cover: "/a_practiva_guide_to_build_ai_agent/ai-agent-1.jpg",
+    content: `Blog này sẽ hướng dẫn các bạn cách xây dựng một AI Agent oách xà lách.
+
+## What is an agent?
+
+Hầu hết các phần mềm hiện tại có thể cho phép users thực hiện các tác vụ tự động, tuy nhiên các tác vụ này đa số vẫn cần sự tham gia của người dùng và chúng luôn cứng nhắc tuân theo một số các quy tắc nhất định.
+
+Ngược với điều đó, agents là các hệ thống có thể hoàn thành các tác vụ một cách độc lập và dựa vào hành vi của users (users behalf).
+
+Workflow là một chuỗi các các bước cần được thực hiện để đáp ứng mục tiêu của user, chúng có thể là một hành động đơn giản như gửi email, hoặc là một quy trình phức tạp như mua hàng online.
+
+Các ứng dụng mà có tích hợp LLMs nhưng không sủ dụng chúng để điều khiển việc thực thi workflow sẽ không được coi là agents (như chatbots, single-turn LLMs, hoặc sentiment classifier)
+
+Một Agent sẽ có các đặc điểm sau:
+
+- Tận dụng LLMs để quản lý luồn thực thi workflow và đưa ra quyết định. Nó có thể nhận biết được khi nào một workflow đã hoàn thành và có thể tối ưu hóa hành động đó nếu cần thiết. Trong trường hợp thất bại, nó có thể dừng thực thi và chuyển quyền điểu khiển lại cho người dùng.
+- Nó có thể truy cập nhiều tools để tương tác với các hệ thống bên ngoài - bao gồm việc thu thập các context để hành động - hoặc tự động chọn ra các tools cần thiết dựa trên trạng thái hiện tại của workflow.
+
+## When should you build an agent?
+
+Việc xây dựng agent (tác tử, hệ thống thông minh tự chủ) đòi hỏi bạn phải suy nghĩ lại cách mà hệ thống đưa ra quyết định và xử lý sự phức tạp.
+
+Không giống như tự động hóa truyền thống, agent đặc biệt phù hợp với những quy trình công việc mà các phương pháp dựa trên quy tắc cứng nhắc, mang tính tất định (deterministic & rule-based) không còn hiệu quả.
+
+Hãy xét ví dụ về phân tích gian lận trong thanh toán.
+
+Một hệ thống dựa trên luật truyền thống hoạt động giống như một danh sách kiểm tra (checklist), chỉ cần giao dịch nào vi phạm tiêu chí định sẵn thì sẽ bị gắn cờ.
+
+Hãy xét ví dụ về phân tích gian lận trong thanh toán.
+
+- Một hệ thống dựa trên luật truyền thống hoạt động giống như một danh sách kiểm tra (checklist), chỉ cần giao dịch nào vi phạm tiêu chí định sẵn thì sẽ bị gắn cờ.
+
+- Ngược lại, một agent dựa trên mô hình ngôn ngữ (LLM agent) lại giống như một điều tra viên giàu kinh nghiệm: nó có thể đánh giá bối cảnh, nhận ra các mẫu tinh vi, và phát hiện hoạt động đáng ngờ ngay cả khi không vi phạm quy tắc rõ ràng nào.
+
+Khi bạn đánh giá những nơi mà agent có thể mang lại giá trị, hãy ưu tiên các quy trình công việc vốn trước đây khó tự động hóa, đặc biệt là những chỗ mà các phương pháp truyền thống thường gặp trở ngại hoặc không hiệu quả.
+
+## Agent design foundations
+
+Hầu hết một agent sẽ có các thành phần sau:
+
+- **Model**: LLM là một mô hình ngôn ngữ được sử dụng để xử lý các yêu cầu của người dùng và đưa ra quyết định.
+
+- **Tools**: Các chức năng bên ngoài hoặc APIs mà agent có thể sử dụng để tương tác với các hệ thống bên ngoài.
+
+- **Instruction**: Một chuỗi các bước cần được thực hiện để đáp ứng mục tiêu của user.
+
+\`\`\`python
+weather_agent = Agent(
+
+    name = "Weather agent",
+
+    instructions = "You are a helpful agent who can talk to users about the weather.",
+
+    tools = [get_weather],
+)
+\`\`\`
+
+## Selecting your models
+
+Các models khác nhau có các thế mạnh và hạn chế khác nhau.tùy thuộc vào độ phức tạp, độ trễ, chi phí của tác vụ.
+
+Không phải tác vụ nào cũng yêu cầu sử dụng model thông minh khác - một tác vụ như truy xuất thông tin đơn giản, phân loại văn bản có thể được thực hiện bởi một model nhỏ hơn, nhanh hơn, trong khi các tác vụ khó hơn như quyết định xem có nên chấp nhận một khoản thanh toán hay không thì cần một model lớn hơn.
+
+Tóm lại, các nguyên tắc chọn model đơn giản như sau
+
+- Thiết lập bài đánh giá (evaluation) để xác định mốc chuẩn ban đầu về hiệu suất.
+- Tập trung đạt được mức độ chính xác mong muốn bằng cách sử dụng những mô hình tốt nhất hiện có.
+- Tối ưu chi phí và độ trễ bằng cách thay thế các mô hình lớn bằng mô hình nhỏ hơn khi có thể.
+
+## Difining tools
+
+Các công cụ (tools) giúp mở rộng năng lực của agent bằng cách sử dụng API từ các ứng dụng hoặc hệ thống nền tảng. Đối với các hệ thống cũ (legacy systems) không có API, agent có thể dựa vào các mô hình computer-use để tương tác trực tiếp với ứng dụng/hệ thống thông qua giao diện web hoặc ứng dụng, giống như cách một con người thao tác.
+
+Mỗi công cụ (tool) cần có một định nghĩa chuẩn hóa, giúp thiết lập mối quan hệ linh hoạt và nhiều-nhiều (many-to-many) giữa công cụ và agent.
+
+Các công cụ được tài liệu hóa đầy đủ, kiểm thử kỹ lưỡng, và có thể tái sử dụng.
+
+## Configuring instructions
+
+Hướng dẫn chất lượng cao là yếu tố thiết yếu cho mọi ứng dụng sử dụng LLM, nhưng lại càng quan trọng hơn đối với agents. Hướng dẫn rõ ràng sẽ giúp giảm sự mơ hồ, cải thiện khả năng ra quyết định của agent, từ đó thực hiện workflow trôi chảy hơn và giảm thiểu lỗi.
+
+### Best Practices for Agent Instructions
+
+1. Use existing documents (Tận dụng tài liệu sẵn có)
+
+   Khi tạo các quy trình (routines), hãy dùng các tài liệu hướng dẫn vận hành, kịch bản hỗ trợ, hoặc chính sách hiện có để chuyển thành routine thân thiện với LLM.
+
+2. Prompt agents to break down tasks (Yêu cầu agent chia nhỏ nhiệm vụ)
+
+   Từ những nguồn tài nguyên dày đặc, hãy chia thành các bước nhỏ, rõ ràng.
+
+3. Define clear actions (Xác định rõ hành động)
+
+   Đảm bảo mỗi bước trong routine tương ứng với một hành động hoặc output cụ thể.
+
+4. Capture edge cases (Bao quát các trường hợp ngoại lệ)
+
+   Trong thực tế, người dùng có thể đưa thông tin thiếu hoặc hỏi câu bất ngờ. Một routine mạnh mẽ phải dự đoán các tình huống phổ biến này và đưa ra hướng dẫn xử lý với conditional step (bước điều kiện).
+
+## Ochestration
+
+Khi đã có các thành phần nền tảng sẵn sàng, bạn có thể bắt đầu xem xét các mẫu điều phối (orchestration patterns) để giúp agent thực thi workflow hiệu quả hơn.
+
+Mặc dù có thể rất hấp dẫn khi lao ngay vào việc xây dựng một agent hoàn toàn tự trị với kiến trúc phức tạp, nhưng trên thực tế, khách hàng thường đạt được thành công cao hơn khi áp dụng cách tiếp cận từng bước (incremental approach).
+
+## Single-agent systems
+
+Một agent đơn lẻ có thể xử lý nhiều nhiệm vụ bằng cách bổ sung dần các công cụ (tools), giúp giữ cho độ phức tạp ở mức kiểm soát được và đơn giản hóa việc đánh giá, bảo trì.
+
+Mỗi công cụ mới được thêm vào sẽ mở rộng khả năng của agent, mà không buộc bạn phải sớm xây dựng hệ thống đa agent phức tạp.
+
+## Guardrails
+
+Các guardrail (lan can bảo vệ) được thiết kế tốt sẽ giúp bạn quản lý rủi ro về quyền riêng tư dữ liệu (ví dụ: ngăn rò rỉ system prompt) hoặc rủi ro về uy tín thương hiệu (ví dụ: đảm bảo mô hình phản hồi đúng với định hướng thương hiệu).
+
+Bạn có thể thiết lập guardrail để xử lý những rủi ro đã biết trong use case của mình, và bổ sung thêm guardrail mới khi phát hiện ra các lỗ hổng mới.
+
+Guardrail là thành phần thiết yếu trong mọi triển khai dựa trên LLM, nhưng cần được kết hợp với các biện pháp bảo mật khác: xác thực & phân quyền mạnh mẽ, kiểm soát truy cập nghiêm ngặt, và các chuẩn an ninh phần mềm.
+
+Hãy coi guardrail như một cơ chế phòng thủ nhiều lớp: một guardrail đơn lẻ thường không đủ, nhưng khi kết hợp nhiều guardrail chuyên biệt, bạn sẽ tạo ra agent bền vững hơn.
+
+Ví dụ minh họa (theo sơ đồ): kết hợp LLM-based guardrails, rules-based guardrails (như regex), và OpenAI Moderation API để kiểm duyệt input từ người dùng.
+`,
+    tags: ["AI Agent", "Deep Learning", "AI Engineer"],
+    date: "2025-09-29",
     author: "Minh Hung",
     category: "AI Engineer",
   },
