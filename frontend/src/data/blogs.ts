@@ -355,10 +355,10 @@ Trung bình của dãy này = 8.2 ⇒ MnR = 8.2
   },
   {
     id: "3",
-    slug: "a-practiva-guide-to-build-ai-agent",
-    title: "A Practiva Guide to Build AI Agent",
+    slug: "a-practive-guide-to-build-ai-agent",
+    title: "A Practive Guide to Build AI Agent",
     excerpt: `AI Agent là một mô hình AI được huấn luyện để thực hiện các tác vụ dựa trên dữ liệu và kiến thức. Cho phép thực hiện các tác vụ mà không cần phải có sự giám sát trực tiếp từ người dùng.`,
-    cover: "/A_Practiva_Guide_to_Build_Ai_Agent/ai-agent-1.jpg",
+    cover: "/A_Practive_Guide_to_Build_AI_Agent/ai-agent-1.jpg",
     content: `Blog này sẽ hướng dẫn các bạn cách xây dựng một AI Agent oách xà lách.
 
 ## What is an agent?
